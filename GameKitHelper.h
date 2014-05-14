@@ -67,7 +67,7 @@
 +(GameKitHelper*) sharedGameKitHelper;
 
 // Player authentication, info
--(void) authenticateLocalPlayer;
+-(void) authenticateLocalPlayer:(BOOL)showAuthenticateDialog;
 -(void) getLocalPlayerFriends;
 -(void) getPlayerInfo:(NSArray*)players;
 -(BOOL) isLocalPlayerAuthenticated;

@@ -105,7 +105,7 @@ static GameKitHelper *instanceOfGameKitHelper;
         
 		[self registerForLocalPlayerAuthChange];
         
-		[self initCachedAchievements];
+		//[self initCachedAchievements];
 	}
 	
 	return self;
@@ -149,27 +149,46 @@ static GameKitHelper *instanceOfGameKitHelper;
 
 #pragma mark Player Authentication
 
--(void) authenticateLocalPlayer
+-(void) authenticateLocalPlayer:(BOOL)showAuthenticateDialog
 {
 	if (isGameCenterAvailable == NO)
 		return;
     
 	GKLocalPlayer* localPlayer = [GKLocalPlayer localPlayer];
-	if (localPlayer.authenticated == NO)
-	{
-		// Authenticate player, using a block object. See Apple's Block Programming guide for more info about Block Objects:
-		// http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html
-		[localPlayer authenticateWithCompletionHandler:^(NSError* error)
-         {
-             [self setLastError:error];
-             
-             if (error == nil)
-             {
-                 [self initMatchInvitationHandler]; //are not using achievements so commented out these three lines
-                 [self reportCachedAchievements];
-                 [self loadAchievements];
-             }
-         }];
+    localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
+        if(localPlayer.isAuthenticated) {
+            if (viewController != nil) {
+                [self presentViewController:viewController];
+                
+            }
+        }
+        else if (viewController != nil and showAuthenticateDialog)
+        {
+            [self presentViewController:viewController];
+        }
+        else
+        {
+            //[self disableGameCenter];
+        }
+        
+};
+    
+    
+//	if (localPlayer.authenticated == NO)
+//	{
+//		// Authenticate player, using a block object. See Apple's Block Programming guide for more info about Block Objects:
+//		// http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html
+//		[localPlayer authenticateWithCompletionHandler:^(NSError* error)
+//         {
+//             [self setLastError:error];
+//             
+//             if (error == nil)
+//             {
+//                 [self initMatchInvitationHandler]; //are not using achievements so commented out these three lines
+//                 [self reportCachedAchievements];
+//                 [self loadAchievements];
+//             }
+//         }];
 		
 		/*
 		 // NOTE: bad example ahead!
@@ -189,7 +208,7 @@ static GameKitHelper *instanceOfGameKitHelper;
 		 else
          NSLog(@"Local player NOT logged in!");
 		 */
-	}
+//	}
 }
 
 -(void) onLocalPlayerAuthenticationChanged

@@ -34,12 +34,13 @@ GKHWrapperCpp::GKHWrapperCpp(){
 #pragma mark Players
 
 
-void GKHWrapperCpp::authenticateLocalPlayer(){
+void GKHWrapperCpp::authenticateLocalPlayer(bool showAuthenticateDialog){
     
     GameKitHelper *gameKitHelper = [GameKitHelper sharedGameKitHelper];
-    [gameKitHelper authenticateLocalPlayer];
+    [gameKitHelper authenticateLocalPlayer:showAuthenticateDialog];
     
 }
+
 
 bool GKHWrapperCpp::isLocalPlayerAuthenticated(){
     

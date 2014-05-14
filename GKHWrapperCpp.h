@@ -23,7 +23,7 @@ public:
     GKHWrapperCpp();
     
     // Players
-    void authenticateLocalPlayer();
+    void authenticateLocalPlayer(bool showAuthenticateDialog = true);
     bool isLocalPlayerAuthenticated();
     void getLocalPlayerFriends();
     void getPlayerInfo(std::vector<std::string>playerList);
